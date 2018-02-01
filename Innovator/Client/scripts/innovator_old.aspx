@@ -10,7 +10,6 @@
 		<link rel="stylesheet" href="../styles/main.min.css"/>
 		<link rel="stylesheet" href="../javascript/include.aspx?classes=arasClaro.css">
 		<link rel="stylesheet" href="../javascript/include.aspx?classes=common.css,spinner.css">
-		<link rel="stylesheet" href="../styles/controls/enterpriseSearchToolbar.css">
 		<style>
 			body {
 				overflow: hidden;
@@ -39,7 +38,6 @@
 				'Aras/Client/Controls/Experimental/MainMenu',
 				'Aras/Client/Controls/Experimental/StatusBar',
 				'Aras/Client/Frames/StatusBar',
-				'Aras/Client/Controls/Public/ToolBar',
 				'Aras/Client/Controls/Experimental/TimeZoneInfo'
 			]
 		);
@@ -142,7 +140,6 @@
 		</main>
 		<footer id="bottom"></footer>
 		<iframe id="tree" src="../scripts/mainTree.html" scrolling="no" style="display: none"></iframe>
-		<iframe id="menu" src="../scripts/MainMenu.aspx" scrolling="no" style="display: none"></iframe>
 		<iframe id="dimmer_spinner_whole_window" src="../scripts/Spinner.html"></iframe>
 		<svg id='svg-symbols' style="display:none"></svg>
 	</body>
