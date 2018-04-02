@@ -162,14 +162,6 @@
 				return;
 			}
 			
-			//first character typed so list is not filtered yet -> mark expanded TOC nodes
-			var key = event.keyCode;
-			if ((val.length == 1 && key != 8))
-			{	
-				var alreadyThereElements = $('.aras-nav-toc').find('span').parents('.aras-nav-parent_expanded');
-				alreadyThereElements.addClass('hadbefore_aras-nav-parent_expanded');
-			}
-			
 			// Get the TOC container
 			var toc = document.getElementsByClassName("aras-nav-toc");
 			if (!toc || toc.length < 1)
