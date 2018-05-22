@@ -28,6 +28,8 @@
 			#banner{
 				height: <%=ICC.BannerHeight.ToString()%>px;
 			}
+			
+			/* Start Filter TOC Modifications */
 			.filterContainer {
 				margin: 0 2px 5px 15px;
 				position: relative;
@@ -50,6 +52,8 @@
 				top: 0px;
 				border: none;
 			}
+			/* End Filter TOC Modifications */
+
 		</style>
 		<!-- #INCLUDE FILE="include/InitialSetupHeader.aspx" -->
 		<script src="./external/jquery-3.2.1.min.js"></script>
@@ -76,6 +80,7 @@
 			}
 
 			stopTimeBannersUpdate();
+			
 			//Onunload handler does not start in Chrome when the opener are closed.
 			//As a result, save preference and logout not called.
 			if (aras.Browser.isCh() && !window.opener) {
@@ -83,6 +88,8 @@
 				aras.logout();
 			}
 		};
+		
+		// Start Filter TOC Modifications
 		
 		// override the jquery 'contains' filter to be case insensitive
 		jQuery.expr[':'].contains = function(a, i, m) {
@@ -92,9 +99,13 @@
 		function showAllTOCNodes() {
 			$('.aras-nav').each(function() {
 				$(this).find('*').show();
-				$(this).find('.aras-nav-parent_expanded').removeClass('aras-nav-parent_expanded');
+				
+				var item = document.item;
+				var thisItem = document.thisItem;
 			})
 			
+			var elements = $('.aras-nav-toc').find("span").parents('.aras-nav-parent_expanded').not('.hadbefore_aras-nav-parent_expanded');
+			elements.removeClass('aras-nav-parent_expanded');
 		}
 		
 		function hideAllTOCNodes() {
@@ -106,20 +117,48 @@
 		function showParentsUntilRootTOC(val) {
 			$('.aras-nav-toc').find("span:contains('" + val + "')").show();
 			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").show();
-			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg').show();
-			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg').find('*').show();
-			$('.aras-nav-toc').find("span:contains('" + val + "')").parents('.aras-nav-parent').addClass('aras-nav-parent_expanded')
+			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg,img').show();
+			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg,img').find('*').show();
+			$('.aras-nav-toc').find("span:contains('" + val + "')").parents('.aras-nav-parent').addClass('aras-nav-parent_expanded');
 		}
 		
 		function clearFilter() {
-			$('#filterTOC').val('');
-			showAllTOCNodes();
+			var tValue = $('#filterTOC').val();
+			
+			if (tValue != null && tValue != '')
+			{
+				$('#filterTOC').val('');
+				showAllTOCNodes();
+			}	
+			
+			//filter is already cleared -> mark expanded TOC nodes
+			if (tValue.length == 0)
+			{	
+				var alreadyThereElements = $('.aras-nav-toc').find('span').parents('.aras-nav-parent_expanded');
+				alreadyThereElements.addClass('hadbefore_aras-nav-parent_expanded');
+			}
 		}
 		
-		onkeyupfilter = function() {
+		function onFilterFocus() {
+		    //onkeyup sometimes gets triggered too late -> so mark expanded TOC nodes on focus
+			var filter = document.getElementById("filterTOC");
+			var val = filter.value;
+			if (val.length == 0)
+			{
+				var alreadyThereElements = $('.aras-nav-toc').find('span').parents('.aras-nav-parent_expanded');
+				alreadyThereElements.addClass('hadbefore_aras-nav-parent_expanded');
+			}
+		}
+		
+		function onkeyupfilter(event) {
 			// Get the value to filter by
 			var filter = document.getElementById("filterTOC");
 			var val = filter.value;
+			
+			if (event.keyCode == 13 && val != null && val.length > 0)
+			{
+				$('.aras-nav-toc').find('ul').first().find('li:visible:not(.aras-nav-parent)').first().trigger('click')
+			}
 			
 			if ((val == null) || (val == ""))
 			{
@@ -139,11 +178,10 @@
 			var elemsToShow = [];
 			
 			hideAllTOCNodes();
-			
 			showParentsUntilRootTOC(val);
 		}
 		
-
+		// End Filter TOC Modifications
 		</script>
 	</head>
 	<body class="claro">
@@ -214,10 +252,12 @@
 						<span class="aras-icon-arrow aras-icon-arrow_left"></span>
 					</div>
 				</div>
+				<!-- Start Filter TOC Modifications -->
 				<div class="filterContainer">
-					<input type="text" id="filterTOC" onkeyup="onkeyupfilter()" placeholder="Filter..." />
+					<input type="text" id="filterTOC" onkeyup="onkeyupfilter(event)" onfocus="onFilterFocus()" placeholder="Filter..." />
 					<input type="image" src="..\images\Delete.svg" id="clearFilterButton" onclick="clearFilter()" />
 				</div>
+				<!-- End Filter TOC Modifications -->
 				<div class="aras-nav-toc"></div>
 			</div>
 			<div class="aras-splitter" id="main-container-splitter"></div>
