@@ -116,10 +116,9 @@
 		
 		function showParentsUntilRootTOC(val) {
 			$('.aras-nav-toc').find("span:contains('" + val + "')").show();
-			$('.aras-nav-toc').find("span:contains('" + val + "')").parent().find("img").show();
 			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").show();
-			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg').show();
-			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg').find('*').show();
+			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg,img').show();
+			$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg,img').find('*').show();
 			$('.aras-nav-toc').find("span:contains('" + val + "')").parents('.aras-nav-parent').addClass('aras-nav-parent_expanded');
 		}
 		
@@ -155,6 +154,11 @@
 			// Get the value to filter by
 			var filter = document.getElementById("filterTOC");
 			var val = filter.value;
+			
+			if (event.keyCode == 13 && val != null && val.length > 0)
+			{
+				$('.aras-nav-toc').find('ul').first().find('li:visible:not(.aras-nav-parent)').first().trigger('click')
+			}
 			
 			if ((val == null) || (val == ""))
 			{
