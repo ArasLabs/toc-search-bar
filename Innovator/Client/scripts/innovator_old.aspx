@@ -47,7 +47,11 @@
 				window.onLogoutCommand();
 				var rm = new ResourceManager(new Solution('core'), 'ui_resources.xml', aras.getSessionContextLanguageCode());
 				return rm.getString('setup.beforeunload_warning');
-			} else if(window.arasTabs && !document.getElementById('home-tab').classList.contains('aras-tabs_active')) {
+			} else if (
+				window.arasTabs &&
+				!document.getElementById('home-tab').classList.contains('aras-tabs_active') &&
+				aras.getCommonPropertyValue('exitWithoutSavingInProgress') !== true
+			) {
 				var rm = new ResourceManager(new Solution('core'), 'ui_resources.xml', aras.getSessionContextLanguageCode());
 				return rm.getString('setup.tab_close_warning');
 			}
@@ -130,7 +134,6 @@
 						<span class="aras-icon-arrow aras-icon-arrow_left"></span>
 					</div>
 				</div>
-				<div class="aras-nav-toc"></div>
 			</div>
 			<div class="aras-splitter" id="main-container-splitter"></div>
 			<div id="center" class="aras-flex-grow">
@@ -141,6 +144,5 @@
 		<footer id="bottom"></footer>
 		<iframe id="tree" src="../scripts/mainTree.html" scrolling="no" style="display: none"></iframe>
 		<iframe id="dimmer_spinner_whole_window" src="../scripts/Spinner.html"></iframe>
-		<svg id='svg-symbols' style="display:none"></svg>
 	</body>
 </html>

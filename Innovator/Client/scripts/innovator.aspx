@@ -33,6 +33,7 @@
 			.filterContainer {
 				margin: 0 2px 5px 15px;
 				position: relative;
+				border: 1px solid black;
 				max-width: 150px;
 				width: 90%;
 			}
@@ -40,6 +41,7 @@
 				padding-right: 20px;
 				box-sizing: border-box;
 				width: 100%;
+				border: none;
 			}
 			#filterTOC:hover {
 				background-color: #dde7f5;
@@ -74,13 +76,16 @@
 				window.onLogoutCommand();
 				var rm = new ResourceManager(new Solution('core'), 'ui_resources.xml', aras.getSessionContextLanguageCode());
 				return rm.getString('setup.beforeunload_warning');
-			} else if(window.arasTabs && !document.getElementById('home-tab').classList.contains('aras-tabs_active')) {
+			} else if (
+				window.arasTabs &&
+				!document.getElementById('home-tab').classList.contains('aras-tabs_active') &&
+				aras.getCommonPropertyValue('exitWithoutSavingInProgress') !== true
+			) {
 				var rm = new ResourceManager(new Solution('core'), 'ui_resources.xml', aras.getSessionContextLanguageCode());
 				return rm.getString('setup.tab_close_warning');
 			}
 
 			stopTimeBannersUpdate();
-			
 			//Onunload handler does not start in Chrome when the opener are closed.
 			//As a result, save preference and logout not called.
 			if (aras.Browser.isCh() && !window.opener) {
@@ -258,7 +263,6 @@
 					<input type="image" src="..\images\Delete.svg" id="clearFilterButton" onclick="clearFilter()" />
 				</div>
 				<!-- End Filter TOC Modifications -->
-				<div class="aras-nav-toc"></div>
 			</div>
 			<div class="aras-splitter" id="main-container-splitter"></div>
 			<div id="center" class="aras-flex-grow">
