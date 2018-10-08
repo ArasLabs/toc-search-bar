@@ -4,14 +4,15 @@ The TOC Search Bar projects adds a search bar to the standard table of contents 
 
 ## Project Details
 
-**Built Using:** Aras 11.0 SP12
-**Browsers Tested:** Internet Explorer 11, Firefox 45 ESR, Chrome
+**Built Using:** Aras 11.0 SP15
+**Browsers Tested:** Internet Explorer 11, Edge, Chrome
 
-> Though built and tested using Aras 11.0 SP12, this project should also work with Aras 11.0 SP11. Please note that this project is reliant on changes made to the TOC in 11.0 SP11, and will not work in older versions.
+> Please note that this project is reliant on changes made to the TOC in 11.0 SP11, and will not work in older versions.
 
 ## History
 Release | Notes
 --------|--------
+[v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | Update for SP15
 [v11.0SP12](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP12) | Update for SP12
 [v11.0SP11](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP11) | First release.
 
@@ -19,6 +20,7 @@ Release | Notes
 
 Project | Aras
 --------|------
+[v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | 11.0 SP15
 [v11.0SP12](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP12) | 11.0 SP12
 [v11.0SP11](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP11) | 11.0 SP11
 
