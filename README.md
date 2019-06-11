@@ -2,16 +2,19 @@
 
 The TOC Search Bar projects adds a search bar to the standard table of contents to allow users to more easily find the ItemTypes they are looking for.
 
+![](./Screenshots/search-bar-in-action.png)
+
 ## Project Details
 
-**Built Using:** Aras 11.0 SP15
+**Built Using:** Aras 12.0
 **Browsers Tested:** Internet Explorer 11, Edge, Chrome
 
-> Please note that this project is reliant on changes made to the TOC in 11.0 SP11, and will not work in older versions.
+> Please note that each release of this project is version-dependent. To avoid potential errors, please ensure that you download the release of this project corresponding to your installed version of Aras Innovator.
 
 ## History
 Release | Notes
 --------|--------
+[v12.0](https://github.com/ArasLabs/toc-search-bar/releases/tag/12.0) | Update for 12.0
 [v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | Update for SP15
 [v11.0SP12](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP12) | Update for SP12
 [v11.0SP11](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP11) | First release.
@@ -20,6 +23,7 @@ Release | Notes
 
 Project | Aras
 --------|------
+[v12.0](https://github.com/ArasLabs/toc-search-bar/releases/tag/12.0) | 12.0
 [v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | 11.0 SP15
 [v11.0SP12](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP12) | 11.0 SP12
 [v11.0SP11](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP11) | 11.0 SP11
@@ -31,7 +35,7 @@ Project | Aras
 
 ### Pre-requisites
 
-1. Aras Innovator installed (version 11.0 SP11+)
+1. Aras Innovator installed (version 12.0)
 
 ### Install Steps
 
