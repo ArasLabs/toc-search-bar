@@ -150,83 +150,56 @@ export default class NavigationPanel extends Sidebar {
 
 	// Start TOC Searchbar Modifications
 
-	showAllTOCNodes() {
-		$('.aras-nav').each(function() {
-			$(this).find('*').not('.aras-nav-leaf-ico').show();
-			// The icons flagged with the class 'aras-nav-leaf-ico' are the search icons that appear when you hover over an ItemType in the TOC
-			// Due to some css quirk, calling the show() function on these items was inproperly setting the style attribute of these elements to 'display: "inline-block"'
-			// Because of this, we need to specifically set the style for these elements like so.
-			// TODO: Maybe it's best to avoid using hide()/show() entirely and we should just be doing direct style manipulation like this?
-			$(this).find('.aras-nav-leaf-ico').attr("style", "");
-		})
-
-		var elements = $('.aras-nav-toc').find("span").parents('.aras-nav__parent_expanded').not('.hadbefore_aras-nav__parent_expanded');
-		elements.removeClass('aras-nav__parent_expanded');	
-	}
-		
 	hideAllTOCNodes() {
-		$('.aras-nav').each(function() {
-			$(this).find('*').hide();
+    
+		const val = document.getElementById('filterTOC').value;
+		document.querySelectorAll('.aras-nav__row').forEach(function(element){
+			element.closest('li').style.display = 'none';
+		});
+		document.querySelectorAll('.aras-nav__child').forEach(function(element){
+			if (element.querySelector('.aras-nav__label').textContent.includes(val)){   
+				var cnt= element.getAttribute("aria-level");
+				element.style.display = 'flex';
+				if(cnt == 4){
+					element.closest('.aras-nav__parent').style.display = 'list-item';
+					element.closest('.aras-nav__parent').parentElement.closest('.aras-nav__parent').style.display = 'list-item';
+					element.closest('.aras-nav__parent').parentElement.closest('.aras-nav__parent').parentElement.closest('.aras-nav__parent').style.display = 'list-item';
+				}   
+				if(cnt == 3){
+					element.closest('.aras-nav__parent').style.display = 'list-item';
+					element.closest('.aras-nav__parent').parentElement.closest('.aras-nav__parent').style.display = 'list-item';
+				}
+				if(cnt == 2){
+					element.closest('.aras-nav__parent').style.display = 'list-item';
+				}
+			}
 		});
 	}
-	
-	showParentsUntilRootTOC(val) {
-		$('.aras-nav-toc').find("span:contains('" + val + "')").show();
-		$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").show();
-		$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg,img').show();
-		$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('div,svg,img').find('*').show();
-		$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('.aras-nav-leaf-ico').attr("style", ""); // We're not using show() for the same reason listed in the comment in the showALlTOCNodes() function above
-		$('.aras-nav-toc').find("span:contains('" + val + "')").parentsUntil(".aras-nav").children('.aras-nav-leaf-ico').find("*").show();
-		$('.aras-nav-toc').find("span:contains('" + val + "')").parents('.aras-nav__parent').addClass('aras-nav__parent_expanded');
-	}
-
-	_clearFilter() {
-		var tValue = $('#filterTOC').val();
+		
+		_focusFilter() {
+			var filter = document.getElementById("filterTOC");
+			var val = filter.value;
+			if (val.length == 0)
+			{
+				var alreadyThereElements = document.querySelectorAll('.aras-nav-toc span.aras-nav__parent_expanded');
+				alreadyThereElements.forEach(function(element){
+					element.classList.add('hadbefore_aras-nav__parent_expanded');
+				});
+				
+			}
+		}
+		
+		_filterTOC() {
 			
-		if (tValue != null && tValue != '')
-		{
-			$('#filterTOC').val('');
-			this.showAllTOCNodes();
-		}	
-		
-		//filter is already cleared -> mark expanded TOC nodes
-		if (tValue.length == 0)
-		{	
-			var alreadyThereElements = $('.aras-nav-toc').find('span').parents('.aras-nav__parent_expanded');
-			alreadyThereElements.addClass('hadbefore_aras-nav__parent_expanded');
-		}
-	}
-
-	_focusFilter() {
-		//onkeyup sometimes gets triggered too late -> so mark expanded TOC nodes on focus
-		var filter = document.getElementById("filterTOC");
-		var val = filter.value;
-		if (val.length == 0)
-		{
-			var alreadyThereElements = $('.aras-nav-toc').find('span').parents('.aras-nav__parent_expanded');
-			alreadyThereElements.addClass('hadbefore_aras-nav__parent_expanded');
-		}
-	}
-
-	_filterTOC() {
-		// Get the value to filter by
-		var filter = document.getElementById("filterTOC");
-		var val = filter.value;
-		
-		if (event.keyCode == 13 && val != null && val.length > 0)
-		{
-			$('.aras-nav-toc').find('ul').first().find('li:visible:not(.aras-nav__parent)').first().trigger('click')
+			var filter = document.getElementById("filterTOC");
+			var val = filter.value;     
+			this.hideAllTOCNodes();
 		}
 		
-		if ((val == null) || (val == ""))
-		{
-			this.showAllTOCNodes();
-			return;
+		_clearFilter() {
+			document.getElementById('filterTOC').value = '';
+			this.hideAllTOCNodes();
 		}
-		
-		this.hideAllTOCNodes();
-		this.showParentsUntilRootTOC(val);
-	}
 
 	// End TOC Searchbar Modifications
 
