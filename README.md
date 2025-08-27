@@ -6,7 +6,7 @@ The TOC Search Bar projects adds a search bar to the standard table of contents 
 
 ## Project Details
 
-**Built Using:** Aras 12.0
+**Built Using:** Aras Innovator R33
 **Browsers Tested:** Internet Explorer 11, Edge, Chrome
 
 > Please note that each release of this project is version-dependent. To avoid potential errors, please ensure that you download the release of this project corresponding to your installed version of Aras Innovator.
@@ -14,6 +14,7 @@ The TOC Search Bar projects adds a search bar to the standard table of contents 
 ## History
 Release | Notes
 --------|--------
+[v33](https://github.com/ArasLabs/toc-search-bar/releases/tag/33) | Update for R33
 [v12.0](https://github.com/ArasLabs/toc-search-bar/releases/tag/12.0) | Update for 12.0
 [v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | Update for SP15
 [v11.0SP12](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP12) | Update for SP12
@@ -23,6 +24,7 @@ Release | Notes
 
 Project | Aras
 --------|------
+[v33](https://github.com/ArasLabs/toc-search-bar/releases/tag/33) | R33
 [v12.0](https://github.com/ArasLabs/toc-search-bar/releases/tag/12.0) | 12.0
 [v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | 11.0 SP15
 [v11.0SP12](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP12) | 11.0 SP12
@@ -44,9 +46,7 @@ Project | Aras
 2. Copy the `/Innovator/` folder in your local TOC Search Bar repository
 3. Paste this folder to the root of your code tree
 	* This should be the same folder that contains the `InnovatorServerConfig.xml`
-4. Open the `/Innovator/Client/web.config` in a text editor
-5. Increment the `filesRevision` attribute of the `<cachingModule>` tag in this file
-	* _std->2, 2->3, 3->4, etc._
+4. Clear your browser cache
 
 You are now ready to login to Aras and try out this TOC Search Bar.
 

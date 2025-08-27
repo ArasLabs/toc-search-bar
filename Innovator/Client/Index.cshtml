@@ -1,0 +1,148 @@
+﻿@page
+@using Aras.Client
+@model Aras.Client.pages.MainPageModel
+@{
+	ViewData["Title"] = "Home";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<script nomodule>
+		location = "@{ @Html.Raw(Model.InitialSetupHeaderModel.UtilsModel.RequestDir);}/SupportedBrowsers.html";
+	</script>
+	@if (!Model.IsCacheDisabled)
+	{
+	<script>
+		if (navigator.serviceWorker) {
+			const swPath = `./service-worker.js`;
+			navigator.serviceWorker.register(swPath);
+		}
+	</script>
+	}
+	<base href="@Url.ContentWithSalt("~/scripts/")">
+	<script type="module">
+		const initTelemetry = async () => {
+			console.log('Telemetry initializing...');
+			const { initTelemetry } = await import('@Url.ContentWithSalt("~/jsBundles/telemetry.es.js")');
+			const { status, meterProvider } = await initTelemetry('@Html.Raw(Model.TelemetryOptionsJson)');
+			console.log(status);
+		};
+		initTelemetry();
+	</script>
+
+	@if (!string.IsNullOrEmpty(Model.AppInsightsInstrumentationKey))
+	{
+		<script type="module">
+			import { ApplicationInsights, DistributedTracingModes } from '../vendors/@@microsoft/applicationinsights-web/applicationinsights-web.js';
+
+			const appInsights = new ApplicationInsights({
+				config: {
+					instrumentationKey: "@Model.AppInsightsInstrumentationKey",
+					disableFetchTracking: false,
+					enableCorsCorrelation: true,
+					maxAjaxCallsPerView: -1,
+					correlationHeaderDomains: ["*"],
+					correlationHeaderExcludedDomains: ["aras.com"],
+					distributedTracingMode: DistributedTracingModes.W3C
+				}
+			});
+			appInsights.loadAppInsights();
+			appInsights.trackPageView();
+		</script>
+	}
+	<link rel="stylesheet" href="../styles/common.min.css" />
+	<link rel="stylesheet" href="../styles/main.min.css" />
+	<link rel="stylesheet" href="../javascript/include.aspx?classes=common.css">
+	<style>
+		/* disable default outline for focused element in Chrome */
+		@@supports (-webkit-appearance:none) {
+			*:focus {
+				outline: none
+			}
+		}
+
+		/* Start Filter TOC Modifications */
+		.filterContainer {
+			margin: 0 2px 5px 15px;
+			margin-left: 35px;
+			position: relative;
+			border: 1px solid black;
+			max-width: 220px;
+			width: 90%;
+			display: flex;
+		}
+		#filterTOC {
+			width: 100%;
+		}
+		#filterTOC:hover {
+			background-color: #dde7f5;
+		}
+		#clearFilterButton {
+			max-height: 25px;
+			max-width: 25px;
+			border: none;
+		}
+		/* End Filter TOC Modifications */
+	</style>
+	@await Html.PartialAsync("scripts/include/InitialSetupHeader", Model.InitialSetupHeaderModel)
+	<link rel="icon" sizes="16x16 32x32 48x48 64x64 144x144" href="@{ @Html.Raw(Model.InitialSetupHeaderModel.UtilsModel.RequestDir);}/images/favicon.ico" />
+	<script src="./external/jquery-3.2.1.min.js"></script>
+	<script type="module">
+			var browserInfo;
+			try {
+				browserInfo = new BrowserInfo();
+				if (!browserInfo.isKnown() || !browserInfo.isSupported()) {
+					//we even cannot recognize this browser
+					location = "@{ @Html.Raw(Model.InitialSetupHeaderModel.UtilsModel.RequestDir);}/SupportedBrowsers.html";
+				}
+			}
+			catch (excep) {
+				//Everything is so bad that we even cannot instantiate BrowserInfo and check if browser is supported or not.
+				location = "@{ @Html.Raw(Model.InitialSetupHeaderModel.UtilsModel.RequestDir);}/SupportedBrowsers.html";
+			}
+			// Start TOC Searchbar Modifications
+		
+			// override the jquery 'contains' filter to be case insensitive
+			jQuery.expr[':'].contains = function(a, i, m) {
+			return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+			};
+
+			// End TOC Searchbar Modifications
+	</script>
+	<script type="module" src="../jsBundles/components.es.js"></script>
+	<script type="module" src="../jsBundles/components.es.js"></script>
+	<script type="module">
+		import { mainPageEventHandlers } from '../jsBundles/startup.es.js';
+		require(['dojo/date/locale']);
+		const initPageHandlers = async () => {
+			mainPageEventHandlers.onLoadHandler();
+			onbeforeunload = mainPageEventHandlers.onBeforeUnloadHandler;
+			window.onpagehide = (event) => {
+				if (event.persisted) {
+					return;
+				}
+
+				mainPageEventHandlers.onUnloadHandler(event);
+			};
+		};
+		initPageHandlers();
+	</script>
+</head>
+<body>
+	<iframe id="deepLinking" class="main" name="deepLinking" frameborder="0" style="z-index: 2; display: none;"></iframe>
+	<aras-toolbar role="banner" id="headerCommandsBar"></aras-toolbar>
+	<main>
+		<aras-navigation-panel id="navigationPanel"></aras-navigation-panel>
+		<aras-splitter class="aras-hide"></aras-splitter>
+		<div class="aras-background-page" id="backgroundPage"></div>
+		<div id="center" class="aras-flex-grow content-block">
+			<aras-header-tabs id="dock-tab" class="content-block__main-tabs content-block__main-tabs_dock"></aras-header-tabs>
+			<aras-splitter flexible class="content-block__splitter aras-splitter_divider-a"></aras-splitter>
+			<aras-header-tabs id="main-tab" class="content-block__main-tabs content-block__main-tabs_active"></aras-header-tabs>
+		</div>
+	</main>
+	<iframe id="dimmer_spinner" class="aras-spinner_behind-dialogs" src="spinner.html"></iframe>
+</body>
+</html>
