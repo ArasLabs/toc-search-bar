@@ -6,14 +6,15 @@ The TOC Search Bar projects adds a search bar to the standard table of contents 
 
 ## Project Details
 
-**Built Using:** Aras Innovator R33
-**Browsers Tested:** Internet Explorer 11, Edge, Chrome
+**Built Using:** Aras Innovator R36
+**Browsers Tested:** Edge, Chrome
 
 > Please note that each release of this project is version-dependent. To avoid potential errors, please ensure that you download the release of this project corresponding to your installed version of Aras Innovator.
 
 ## History
 Release | Notes
 --------|--------
+[v36](https://github.com/ArasLabs/toc-search-bar/releases/tag/36) | Update for R36
 [v33](https://github.com/ArasLabs/toc-search-bar/releases/tag/33) | Update for R33
 [v12.0](https://github.com/ArasLabs/toc-search-bar/releases/tag/12.0) | Update for 12.0
 [v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | Update for SP15
@@ -24,6 +25,7 @@ Release | Notes
 
 Project | Aras
 --------|------
+[v36](https://github.com/ArasLabs/toc-search-bar/releases/tag/36) | R36
 [v33](https://github.com/ArasLabs/toc-search-bar/releases/tag/33) | R33
 [v12.0](https://github.com/ArasLabs/toc-search-bar/releases/tag/12.0) | 12.0
 [v11.0SP15](https://github.com/ArasLabs/toc-search-bar/releases/tag/11.0SP15) | 11.0 SP15
@@ -37,7 +39,7 @@ Project | Aras
 
 ### Pre-requisites
 
-1. Aras Innovator installed (version 12.0)
+1. Aras Innovator installed (Release 36)
 
 ### Install Steps
 
@@ -46,7 +48,9 @@ Project | Aras
 2. Copy the `/Innovator/` folder in your local TOC Search Bar repository
 3. Paste this folder to the root of your code tree
 	* This should be the same folder that contains the `InnovatorServerConfig.xml`
-4. Clear your browser cache
+4. **For Release 33 and newer,** Open a terminal and run the following command in the `/Innovator/Client/nodejs/` folder: `node build.js --force`
+	* This will compile the changes that we have made so that they can be properly loaded when you re-open the website
+5. Clear your browser cache
 
 You are now ready to login to Aras and try out this TOC Search Bar.
 
