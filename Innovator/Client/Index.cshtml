@@ -66,22 +66,23 @@
 		/* Start Filter TOC Modifications */
 		.filterContainer {
 			margin: 0 2px 5px 15px;
-			margin-left: 35px;
+			margin-left: 15px;
 			position: relative;
 			border: 1px solid black;
 			max-width: 220px;
-			width: 90%;
+			width: 80%;
 			display: flex;
 		}
 		#filterTOC {
 			width: 100%;
+			border: none;
 		}
 		#filterTOC:hover {
 			background-color: #dde7f5;
 		}
 		#clearFilterButton {
-			max-height: 25px;
-			max-width: 25px;
+			max-height: 32px;
+			max-width: 32px;
 			border: none;
 		}
 		/* End Filter TOC Modifications */
@@ -130,19 +131,18 @@
 		initPageHandlers();
 	</script>
 </head>
-<body>
+<body class="main-page">
 	<iframe id="deepLinking" class="main" name="deepLinking" frameborder="0" style="z-index: 2; display: none;"></iframe>
-	<aras-toolbar role="banner" id="headerCommandsBar"></aras-toolbar>
-	<main>
-		<aras-navigation-panel id="navigationPanel"></aras-navigation-panel>
-		<aras-splitter class="aras-hide"></aras-splitter>
-		<div class="aras-background-page" id="backgroundPage"></div>
-		<div id="center" class="aras-flex-grow content-block">
-			<aras-header-tabs id="dock-tab" class="content-block__main-tabs content-block__main-tabs_dock"></aras-header-tabs>
-			<aras-splitter flexible class="content-block__splitter aras-splitter_divider-a"></aras-splitter>
-			<aras-header-tabs id="main-tab" class="content-block__main-tabs content-block__main-tabs_active"></aras-header-tabs>
-		</div>
-	</main>
-	<iframe id="dimmer_spinner" class="aras-spinner_behind-dialogs" src="spinner.html"></iframe>
+	<aras-navigation-panel-tabs id="navigationPanelTabs" draggable></aras-navigation-panel-tabs>
+	<aras-navigation-panel id="navigationPanel"></aras-navigation-panel>
+	<aras-splitter class="aras-hide"></aras-splitter>
+	<div class="main-page-content">
+		<aras-toolbar role="banner" id="headerCommandsBar"></aras-toolbar>
+		<main>
+			<div class="aras-background-page" id="backgroundPage"></div>
+			<div id="center" class="aras-flex-grow content-block"></div>
+		</main>
+	</div>
+	<aras-spinner id="dimmer_spinner" class="aras-spinner_behind-dialogs" active></aras-spinner>
 </body>
 </html>

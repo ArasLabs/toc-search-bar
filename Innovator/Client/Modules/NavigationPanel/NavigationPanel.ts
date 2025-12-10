@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 // @ts-nocheck
 import '../components/nav/nav';
-import Sidebar from '../components/sidebar';
+import { Sidebar } from '../components/sidebar';
 import ContextMenu from '../components/contextMenu';
 import alertModule from '../components/alert';
 import './NavigationPanelTabs';
@@ -149,7 +149,7 @@ export default class NavigationPanel extends Sidebar {
 	currentTab = contentTabId;
 	staticTabs = defaultTabs.map((tab) => tab.id);
 	nav = document.createElement('aras-nav');
-	tabs = document.createElement('aras-navigation-panel-tabs');
+	tabs = document.getElementById('navigationPanelTabs');
 	topScroll = null;
 
 	state: {
@@ -174,6 +174,10 @@ export default class NavigationPanel extends Sidebar {
 		const splitter = this.nextElementSibling;
 		const isVisible = this.isVisible;
 		splitter.classList.toggle('aras-hide', !isVisible);
+		const currentTab = isVisible ? this.tabs.selectedTab || contentTabId : '';
+		if (currentTab !== this.tabs.selectedTab) {
+			this.tabs.selectTab(currentTab);
+		}
 		if (isVisible && this.isPinned) {
 			setTimeout(() => {
 				this.focus();
@@ -302,7 +306,6 @@ export default class NavigationPanel extends Sidebar {
 				iconSrc: secondaryMenuData?.icon
 			})}
 			${this.#createSearchBar()}
-			${this.tabs}
 			${component}
 		`;
 
@@ -541,14 +544,17 @@ export default class NavigationPanel extends Sidebar {
 		});
 	}
 
-	closeIfNotAcitive(element) {
+	closeIfNotAcitive(element: Element | null) {
 		const isElement = Boolean(element && this.contains(element));
 		const isContextMenu = Boolean(
 			element &&
 				(this.popupMenu.dom.contains(element) ||
 					this.secondaryPopupMenu.dom.contains(element))
 		);
-		if (!(isElement || isContextMenu)) {
+		const isNavigationPanelTabs = Boolean(
+			element && this.tabs.contains(element)
+		);
+		if (!(isElement || isContextMenu || isNavigationPanelTabs)) {
 			this.toggleVisibility(false);
 		}
 	}
@@ -588,6 +594,9 @@ export default class NavigationPanel extends Sidebar {
 
 	_initTabs() {
 		this.tabs.on('select', (id) => {
+			if (!this.isVisible) {
+				this.toggleVisibility(true);
+			}
 			if (this.staticTabs.includes(id)) {
 				this._hideSecondaryMenu(id);
 				return;
